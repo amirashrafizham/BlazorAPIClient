@@ -1,0 +1,52 @@
+@page "/deletecommand/{id}"
+@using BlazorAPIClient.Dtos
+@inject HttpClient http
+@inject NavigationManager NavigationManager
+
+<h3>Delete Command</h3>
+<p>Are you sure you want to delete this Product with Id: <b>@id</b>? </p>
+<br />
+
+<div class="col-md-4">
+    <table class="table">
+        <tr>
+            <td>How To</td>
+            <td>@command.HowTo</td>
+        </tr>
+        <tr>
+            <td>Line</td>
+            <td>@command.Line</td>
+        </tr>
+        <tr>
+            <td>Platform</td>
+            <td>@command.Platform</td>
+        </tr>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <input type="button" class="btn btn-success" @onclick="@DeleteCommandAPI" value="Delete" />
+            <input type="button" class="btn btn-danger" @onclick="@Cancel" value="Cancel" />
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string id { get; set; } = ""; //REMEMBER YOU HAVE TO PUT IT IN STRING OR ELSE YOU WILL GET CAST ERROR WHEN
+                                         // LOADING THE PAGE
+    private CommandDto command { get; set; } = new CommandDto();
+    protected async Task DeleteCommandAPI()
+    {
+        await http.DeleteAsync($"http://localhost:5000/api/commands/{id}");
+        NavigationManager.NavigateTo("command");
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("command");
+    }
+
+}

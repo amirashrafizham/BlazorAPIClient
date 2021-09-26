@@ -1,0 +1,40 @@
+@page "/command"
+
+
+<h1>Commander API</h1>
+
+<p>These data are pulled back via .NET REST API</p>
+
+<a href="/addcommand" class="btn btn-info">Add New Command</a>
+<br>
+
+@if (commands == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>How To</th>
+                <th>Line</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var command in commands)
+            {
+                <tr>
+                    <td>@command.Id</td>
+                    <td>@command.HowTo</td>
+                    <td>@command.Line</td>
+                    <td>
+                        <a href="/editcommand/@command.Id" class="btn btn-primary">Edit</a>
+                        <a href="/deletecommand/@command.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

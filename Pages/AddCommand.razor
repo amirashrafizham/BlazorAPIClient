@@ -1,0 +1,48 @@
+@page "/addcommand"
+@using BlazorAPIClient.Dtos
+@inject HttpClient http
+@inject NavigationManager NavigationManager
+
+<h3>Add Command</h3>
+<hr />
+<form>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="HowTo" class="control-label">How To</label>
+                <input for="HowTo" class="form-control" @bind="@command.HowTo" />
+            </div>
+            <div class="form-group">
+                <label for="Line" class="control-label">Line</label>
+                <input for="Line" class="form-control" @bind="@command.Line" />
+            </div>
+            <div class="form-group">
+                <label for="Platform" class="control-label">Platform</label>
+                <input for="Platform" class="form-control" @bind="@command.Platform" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-success" @onclick="@PostCommandAPI" value="Save" />
+                <input type="button" class="btn btn-danger" @onclick="@Cancel" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@code {
+    private CommandDto command { get; set; } = new CommandDto();
+    protected async Task PostCommandAPI()
+    {
+        await http.PostAsJsonAsync("http://localhost:5000/api/commands/", command);
+        NavigationManager.NavigateTo("command");
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("command");
+    }
+
+}
